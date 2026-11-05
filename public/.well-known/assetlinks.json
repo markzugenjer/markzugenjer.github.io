@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "id.co.fdc.vrgames",
+      "sha256_cert_fingerprints": [
+        "EC:19:C9:BD:71:93:EC:48:56:FC:D0:75:5B:9E:48:40:83:7B:82:E7:5A:25:76:A3:83:99:C5:9D:A6:21:DF:9D"
+      ]
+    }
+  }
+]

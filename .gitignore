@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+
+# Android build folder. It holds your signing key and its password:
+# never commit it, but keep a backup of android/fdc-vr.keystore and
+# android/signing.json somewhere safe. You need them to update the app.
+android/
+*.apk
+*.aab

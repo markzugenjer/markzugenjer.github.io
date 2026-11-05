@@ -38,7 +38,7 @@ Connect the Quest by USB with Developer Mode on, then run:
 
 ```bash
 npm run dev
-npm run quest:connect     # adb reverse tcp:5173 tcp:5173
+npm run quest:connect     # adb reverse for 5173 (this app) and 5174 (the clinic)
 ```
 
 In the Quest Browser, open **http://localhost:5173** and press **Enter VR**. `localhost` counts as a secure address, so WebXR works without HTTPS.
@@ -120,6 +120,16 @@ public/                manifest, icons (and assetlinks.json after apk:setup)
 scripts/apk.mjs        apk:setup and apk:build
 scripts/deploy-pages.yml  GitHub Pages workflow template (apk:setup installs it)
 ```
+
+## The FDC clinic (fdc-vr-simulation)
+
+The lobby's **Klinik FDC Solo** button opens the clinic simulation, which is a separate project on the same site (`/fdc-vr-simulation/`). In the Quest app it stays inside this app. In the clinic, **B / Y → Kembali ke Lobby FDC** comes back here.
+
+For local testing, run `npm run dev` in both projects. The lobby on port 5173 then links to the clinic on port 5174.
+
+## FDC Dentist (fdc-vr-dentist)
+
+The **FDC Dentist** button opens the dentist game, another project on the same site (`/fdc-vr-dentist/`), the same way as the clinic. Its menu has **Lobby FDC** to come back. Locally it runs on port 5175.
 
 ## Add a new horizon
 

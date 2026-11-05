@@ -12,6 +12,10 @@ const CLINIC_URL = import.meta.env.DEV
   ? `${location.protocol}//${location.hostname}:5174/?from=lobby`
   : '/fdc-vr-simulation/?from=lobby';
 
+const DENTIST_URL = import.meta.env.DEV
+  ? `${location.protocol}//${location.hostname}:5175/?from=lobby`
+  : '/fdc-vr-dentist/?from=lobby';
+
 export function createLobby(app) {
   const group = new THREE.Group();
   group.add(makeSky({ top: '#bfe3d7', horizon: '#f1f6ee', bottom: '#f3f6ef' }));
@@ -68,12 +72,21 @@ export function createLobby(app) {
   // The FDC Solo clinic simulation is its own page on the same site (the fdc-vr-simulation project).
   const clinic = makeButton(app, {
     label: 'Klinik FDC Solo',
-    sub: 'The real clinic in 3D: walk around freely or go through ENCJ as a patient',
-    w: 2.3, h: 0.3, tone: 'dark',
+    sub: 'The real clinic in 3D, free walk or as a patient',
+    w: 1.1, h: 0.3, tone: 'dark',
     onSelect: () => app.openPage(CLINIC_URL),
   });
-  clinic.position.set(0, 0.98, 0);
+  clinic.position.set(-0.62, 0.98, 0);
   board.add(clinic);
+  // FDC Dentist is its own project too (fdc-vr-dentist)
+  const dentist = makeButton(app, {
+    label: 'FDC Dentist',
+    sub: 'Be the dentist: treat cartoon patients',
+    w: 1.1, h: 0.3, tone: 'dark',
+    onSelect: () => app.openPage(DENTIST_URL),
+  });
+  dentist.position.set(0.62, 0.98, 0);
+  board.add(dentist);
 
   // Help card, tilted up like a lectern
   const help = makePanel(2.3, 0.46, (c, W, H) => {

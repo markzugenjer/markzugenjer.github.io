@@ -96,7 +96,8 @@ Nothing to code: the Quest mirrors whatever is on screen, including this app.
 
 - **From the headset:** connect the Quest and the TV (Chromecast or Google TV) to the same Wi-Fi with internet. Then press the Meta button → **Camera** → **Cast** → pick the TV.
 - **From the phone:** in the Meta Horizon app, tap **Cast**, pick the headset, then pick the TV.
-- **Offline backup for events:** run `scrcpy --crop=1832:1920:0:0` on the Mac with the Quest connected by USB, and show the Mac on the TV over HDMI.
+- **To a computer:** open `oculus.com/casting` in Chrome or Edge, sign in, then on the headset choose **Camera** → **Cast** → **Computer**.
+- **Offline backup for events:** connect the Quest by USB and use **Cast** in Meta Quest Developer Hub, or run `scrcpy` (it shows both eyes side by side). Show that computer on the TV over HDMI.
 
 Tip: casting shows one eye with a small delay. Keep important UI near the centre of view.
 

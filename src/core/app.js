@@ -137,6 +137,18 @@ export class App {
     }
   }
 
+  /**
+   * Leave this app for another page on the same site (for example the FDC clinic simulation).
+   * Fades to black first; in the Quest app the next page starts VR again by itself.
+   */
+  async openPage(url) {
+    if (this.busy) return;
+    this.busy = true;
+    await this.fadeTo(1, 0.3);
+    this.emit('leaving', url);
+    window.location.href = url;
+  }
+
   tick() {
     const dt = Math.min(this.clock.getDelta(), 0.05);
     const t = this.clock.elapsedTime;

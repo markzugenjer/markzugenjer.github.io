@@ -6,6 +6,12 @@ import { HORIZONS } from '../horizons/index.js';
 import { GAMES } from '../games/index.js';
 
 /** The FDC lobby: pick a horizon to explore or a game to play. Buttons come from the two registries. */
+// Built site: https://markzugenjer.github.io/fdc-vr-simulation/ next to this app.
+// Local dev: the clinic's own server (npm run dev in fdc-vr-simulation) on port 5174.
+const CLINIC_URL = import.meta.env.DEV
+  ? `${location.protocol}//${location.hostname}:5174/?from=lobby`
+  : '/fdc-vr-simulation/?from=lobby';
+
 export function createLobby(app) {
   const group = new THREE.Group();
   group.add(makeSky({ top: '#bfe3d7', horizon: '#f1f6ee', bottom: '#f3f6ef' }));
@@ -39,7 +45,7 @@ export function createLobby(app) {
     card(c, W, H, { r: 0.22 });
     text(c, 'fdc', H * 0.3, H * 0.66, { size: H * 0.52, weight: 800, color: COLORS.green });
     text(c, 'VR Lobby', H * 1.42, H * 0.47, { size: H * 0.24, weight: 700 });
-    text(c, 'Explore a horizon or play an FDC game', H * 1.42, H * 0.76, { size: H * 0.14, color: COLORS.muted });
+    text(c, 'Explore a horizon, play a game or visit the clinic', H * 1.42, H * 0.76, { size: H * 0.14, color: COLORS.muted });
   });
   title.mesh.position.set(0, 2.25, 0);
   board.add(title.mesh);
@@ -59,6 +65,16 @@ export function createLobby(app) {
   column('Horizons', HORIZONS, -0.62);
   column('Games', GAMES, 0.62);
 
+  // The FDC Solo clinic simulation is its own page on the same site (the fdc-vr-simulation project).
+  const clinic = makeButton(app, {
+    label: 'Klinik FDC Solo',
+    sub: 'The real clinic in 3D: walk around freely or go through ENCJ as a patient',
+    w: 2.3, h: 0.3, tone: 'dark',
+    onSelect: () => app.openPage(CLINIC_URL),
+  });
+  clinic.position.set(0, 0.98, 0);
+  board.add(clinic);
+
   // Help card, tilted up like a lectern
   const help = makePanel(2.3, 0.46, (c, W, H) => {
     card(c, W, H, { r: 0.18, fill: 'rgba(31,42,23,0.88)' });
@@ -72,7 +88,7 @@ export function createLobby(app) {
     text(c, 'Meta button → Camera → Cast', col2, H * 0.44, { size: s, color: 'rgba(255,255,255,0.86)' });
     text(c, 'Pick your TV or Chromecast', col2, H * 0.64, { size: s, color: 'rgba(255,255,255,0.86)' });
   });
-  help.mesh.position.set(0, 0.72, -2.1);
+  help.mesh.position.set(0, 0.6, -2.0);
   help.mesh.rotation.x = -0.45;
   group.add(help.mesh);
 

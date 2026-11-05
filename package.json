@@ -8,7 +8,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
-    "quest:connect": "adb reverse tcp:5173 tcp:5173",
+    "quest:connect": "adb reverse tcp:5173 tcp:5173 && adb reverse tcp:5174 tcp:5174",
     "apk:setup": "node scripts/apk.mjs setup",
     "apk:build": "node scripts/apk.mjs build"
   },

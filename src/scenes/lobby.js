@@ -3,7 +3,8 @@ import { makeSky } from '../core/sky.js';
 import { makePanel, makeButton, text, card, COLORS } from '../core/ui.js';
 import { makeTooth } from '../games/tooth.js';
 import { HORIZONS } from '../horizons/index.js';
-import { GAMES } from '../games/index.js';
+// The two prototype games (brushing challenge, Cavity Defender) are still registered in
+// ../games/index.js but hidden from the lobby; the Games column links to the full games instead.
 
 /** The FDC lobby: pick a horizon to explore or a game to play. Buttons come from the two registries. */
 // Built site: https://markzugenjer.github.io/fdc-vr-simulation/ next to this app.
@@ -15,6 +16,10 @@ const CLINIC_URL = import.meta.env.DEV
 const DENTIST_URL = import.meta.env.DEV
   ? `${location.protocol}//${location.hostname}:5175/?from=lobby`
   : '/fdc-vr-dentist/?from=lobby';
+
+const PLAQUE_URL = import.meta.env.DEV
+  ? `${location.protocol}//${location.hostname}:5176/?from=lobby`
+  : '/fdc-vr-plaque-attack/?from=lobby';
 
 export function createLobby(app) {
   const group = new THREE.Group();
@@ -67,7 +72,7 @@ export function createLobby(app) {
     });
   };
   column('Horizons', HORIZONS, -0.62);
-  column('Games', GAMES, 0.62);
+  column('Games', [], 0.62);
 
   // The FDC Solo clinic simulation is its own page on the same site (the fdc-vr-simulation project).
   const clinic = makeButton(app, {
@@ -78,14 +83,22 @@ export function createLobby(app) {
   });
   clinic.position.set(-0.62, 0.98, 0);
   board.add(clinic);
-  // FDC Dentist is its own project too (fdc-vr-dentist)
+  // The games are their own projects: fdc-vr-plaque-attack and fdc-vr-dentist
+  const plaque = makeButton(app, {
+    label: 'FDC Plaque Attack',
+    sub: 'Fight plaque germs inside a giant mouth',
+    w: 1.1, h: 0.3, tone: 'dark',
+    onSelect: () => app.openPage(PLAQUE_URL),
+  });
+  plaque.position.set(0.62, 1.6, 0);
+  board.add(plaque);
   const dentist = makeButton(app, {
     label: 'FDC Dentist',
     sub: 'Be the dentist: treat cartoon patients',
     w: 1.1, h: 0.3, tone: 'dark',
     onSelect: () => app.openPage(DENTIST_URL),
   });
-  dentist.position.set(0.62, 0.98, 0);
+  dentist.position.set(0.62, 1.26, 0);
   board.add(dentist);
 
   // Help card, tilted up like a lectern

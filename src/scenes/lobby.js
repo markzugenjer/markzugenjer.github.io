@@ -17,6 +17,10 @@ const DENTIST_URL = import.meta.env.DEV
   ? `${location.protocol}//${location.hostname}:5175/?from=lobby`
   : '/fdc-vr-dentist/?from=lobby';
 
+const BUS_URL = import.meta.env.DEV
+  ? `${location.protocol}//${location.hostname}:5177/?from=lobby`
+  : '/fdc-vr-bus-simulator/?from=lobby';
+
 const PLAQUE_URL = import.meta.env.DEV
   ? `${location.protocol}//${location.hostname}:5176/?from=lobby`
   : '/fdc-vr-plaque-attack/?from=lobby';
@@ -83,7 +87,7 @@ export function createLobby(app) {
   });
   clinic.position.set(-0.62, 0.98, 0);
   board.add(clinic);
-  // The games are their own projects: fdc-vr-plaque-attack and fdc-vr-dentist
+  // The games are their own projects: fdc-vr-plaque-attack, fdc-vr-dentist and fdc-vr-bus-simulator
   const plaque = makeButton(app, {
     label: 'FDC Plaque Attack',
     sub: 'Fight plaque germs inside a giant mouth',
@@ -100,6 +104,14 @@ export function createLobby(app) {
   });
   dentist.position.set(0.62, 1.26, 0);
   board.add(dentist);
+  const smileBus = makeButton(app, {
+    label: 'FDC Smile Bus',
+    sub: 'Drive the Smile Bus through a festive town',
+    w: 1.1, h: 0.3, tone: 'dark',
+    onSelect: () => app.openPage(BUS_URL),
+  });
+  smileBus.position.set(0.62, 0.92, 0);
+  board.add(smileBus);
 
   // Help card, tilted up like a lectern
   const help = makePanel(2.3, 0.46, (c, W, H) => {

@@ -131,10 +131,16 @@ For local testing, run `npm run dev` in both projects. The lobby on port 5173 th
 
 The **FDC Dentist** button opens the dentist game, another project on the same site (`/fdc-vr-dentist/`), the same way as the clinic. Its menu has **Lobby FDC** to come back. Locally it runs on port 5175.
 
+## FDC Plaza
+
+A festive town square. You start on the path in front of a **Selamat Datang di FDC Plaza** arch. Inside there is a three-tier fountain with a mosaic basin, rippling water and jets, and a smiling FDC tooth statue on top. Around it are benches and flower planters, and lamp posts strung with bunting and fairy lights. Further out are four market stalls (Konsultasi Gigi, Sikat Gigi Kit, Jus Buah Segar, Foto Senyum), café umbrellas, balloon bunches and a big FDC billboard. Blossom petals and butterflies drift through the air.
+
+Chill lo-fi music plays in the background (`src/core/music.js`, synthesized live, no audio files). The **Music: on/off** button under Back to lobby turns it off, and the headset remembers the choice. It uses 45 to 85 draw calls.
+
 ## Add a new horizon
 
 1. Copy `src/horizons/plaza.js` to, say, `src/horizons/beach.js`, and rename the function to `createBeach`.
-2. Change the config: `name`, `tagline`, `sky` colours, `light`, `ground`, `fog`. Then add your props in `build(ctx)`. Use the helpers in `props.js` (trees, hills, flowers, clouds, lamps, benches). Use `ctx.onUpdate((dt, t) => …)` for anything animated.
+2. Change the config: `name`, `tagline`, `sky` colours, `light`, `ground`, `fog`, and `music: true` for the chill background music (with a Music on/off button). Then add your props in `build(ctx)`. Use the helpers in `props.js` (trees, hills, flowers, clouds, lamps, benches) and `festive.js` (bunting with fairy lights, balloons, petals, butterflies, striped awnings, and `StaticKit`, which merges static shapes into one mesh). Use `ctx.onUpdate((dt, t) => …)` for anything animated and `ctx.onDispose(fn)` for clean-up.
 3. Add one line to `src/horizons/index.js`:
    ```js
    { id: 'beach', name: 'FDC Beach', desc: 'Waves and palm trees', create: createBeach },

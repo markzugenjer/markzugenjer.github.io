@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { makeSky } from '../core/sky.js';
 import { makePanel, makeButton, text, card, COLORS } from '../core/ui.js';
-import { rng } from '../core/util.js';
+import { rng, store } from '../core/util.js';
+import { ChillMusic } from '../core/music.js';
 
 /**
  * Turns a small config object into a full walkable environment.
@@ -32,7 +33,8 @@ export function buildHorizon(app, cfg) {
   group.add(ground);
 
   const updaters = [];
-  const ctx = { group, rand, app, onUpdate: (fn) => updaters.push(fn) };
+  const disposers = [];
+  const ctx = { group, rand, app, onUpdate: (fn) => updaters.push(fn), onDispose: (fn) => disposers.push(fn) };
   cfg.build(ctx);
 
   // Name sign and lobby button, a few steps in front of the spawn point.
@@ -54,11 +56,30 @@ export function buildHorizon(app, cfg) {
   back.rotation.y = 0.45;
   ui.add(back);
 
+  // Background music (cfg.music: true): starts once sound is unlocked, with an on/off button
+  // under "Back to lobby". The choice is remembered on the headset.
+  let music = null;
+  if (cfg.music) {
+    music = new ChillMusic(app, cfg.music === true ? {} : cfg.music);
+    music.on = store.get('fdc.horizon.music', true);
+    const label = () => (music.on ? 'Music: on' : 'Music: off');
+    const toggle = makeButton(app, {
+      label: label(), w: 0.6, h: 0.13, tone: 'light',
+      onSelect: () => { music.setOn(!music.on); store.set('fdc.horizon.music', music.on); toggle.userData.setLabel(label()); },
+    });
+    toggle.position.set(-0.85, 1.0, -1.3);
+    toggle.rotation.y = 0.45;
+    ui.add(toggle);
+    updaters.push(() => music.update());
+    disposers.push(() => music.stop());
+  }
+
   return {
     group,
     spawn,
     bounds: cfg.bounds ?? 25,
     fog: cfg.fog ? new THREE.Fog(cfg.fog.color, cfg.fog.near, cfg.fog.far) : null,
     update(dt, t) { for (const fn of updaters) fn(dt, t); },
+    dispose() { for (const fn of disposers) fn(); },
   };
 }

@@ -87,22 +87,27 @@ export function createLobby(app) {
   });
   clinic.position.set(-0.62, 0.98, 0);
   board.add(clinic);
-  // The games are their own projects: fdc-vr-plaque-attack, fdc-vr-dentist and fdc-vr-bus-simulator
-  const plaque = makeButton(app, {
-    label: 'FDC Plaque Attack',
-    sub: 'Fight plaque germs inside a giant mouth',
-    w: 1.1, h: 0.3, tone: 'dark',
-    onSelect: () => app.openPage(PLAQUE_URL),
-  });
-  plaque.position.set(0.62, 1.6, 0);
-  board.add(plaque);
+  // The games are their own projects: fdc-vr-plaque-attack, fdc-vr-dentist and fdc-vr-bus-simulator.
+  // Plaque Attack is hidden for now: set SHOW_PLAQUE to true to bring its button back (top of the column).
+  const SHOW_PLAQUE = false;
+  if (SHOW_PLAQUE) {
+    const plaque = makeButton(app, {
+      label: 'FDC Plaque Attack',
+      sub: 'Fight plaque germs inside a giant mouth',
+      w: 1.1, h: 0.3, tone: 'dark',
+      onSelect: () => app.openPage(PLAQUE_URL),
+    });
+    plaque.position.set(0.62, 1.6, 0);
+    board.add(plaque);
+  }
+  const top = SHOW_PLAQUE ? 1.26 : 1.6; // the other games move up when Plaque Attack is hidden
   const dentist = makeButton(app, {
     label: 'FDC Dentist',
     sub: 'Be the dentist: treat cartoon patients',
     w: 1.1, h: 0.3, tone: 'dark',
     onSelect: () => app.openPage(DENTIST_URL),
   });
-  dentist.position.set(0.62, 1.26, 0);
+  dentist.position.set(0.62, top, 0);
   board.add(dentist);
   const smileBus = makeButton(app, {
     label: 'FDC Smile Bus',
@@ -110,7 +115,7 @@ export function createLobby(app) {
     w: 1.1, h: 0.3, tone: 'dark',
     onSelect: () => app.openPage(BUS_URL),
   });
-  smileBus.position.set(0.62, 0.92, 0);
+  smileBus.position.set(0.62, top - 0.34, 0);
   board.add(smileBus);
 
   // Help card, tilted up like a lectern
